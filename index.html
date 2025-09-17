@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Options Trading University — Proof & Course</title>
+  <style>
+    :root{
+      --bg1:#f2f7ff;
+      --card:#ffffff;
+      --accent:#0b2b54;
+      --accent2:#1767c3;
+      --muted:#6b7280;
+      --gold:#ffd24d;
+      --danger:#ff4d6d;
+      --glass: rgba(255,255,255,0.75);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg,#eef6ff 0%, var(--bg1) 60%);
+      color:#081224; -webkit-font-smoothing:antialiased;
+    }
+    .container{max-width:1160px;margin:0 auto;padding:28px}
+
+    /* HERO */
+    header.hero{
+      background: linear-gradient(135deg,var(--accent2),var(--accent));
+      color:white;padding:40px 22px;border-radius:12px;box-shadow:0 18px 60px rgba(8,18,36,0.18);
+      position:relative;overflow:hidden;
+    }
+    header.hero h1{font-size:2.4rem;margin:0 0 6px}
+    header.hero p{margin:0 0 14px;color:rgba(255,255,255,0.95);font-size:1.05rem}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .btn{cursor:pointer;border:none;padding:10px 14px;border-radius:10px;font-weight:700}
+    .btn.primary{background:linear-gradient(90deg,#ffd24d,#ffb347);color:#081224;box-shadow:0 10px 30px rgba(255,160,40,0.15)}
+    .btn.ghost{background:transparent;color:white;border:1px solid rgba(255,255,255,0.12)}
+
+    /* floating small elements */
+    .top-stats{
+      position:absolute;right:22px;top:16px;background:rgba(255,255,255,0.07);backdrop-filter: blur(4px);padding:10px;border-radius:12px;
+      border:1px solid rgba(255,255,255,0.06);text-align:center;min-width:120px;
+    }
+    .top-stats small{display:block;color:rgba(255,255,255,0.85);font-size:0.85rem}
+    .visitor{font-weight:800;font-size:1.05rem}
+
+    /* mentor rolling badge */
+    .mentor-badge{
+      position:absolute;left:18px;top:18px;padding:8px 12px;border-radius:999px;color:white;font-weight:800;
+      display:flex;gap:10px;align-items:center;box-shadow:0 8px 30px rgba(10,20,40,0.18);
+      transform-origin:center;
+      animation: floaty 6s ease-in-out infinite;
+    }
+    @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+    .mentor-count{padding:8px 10px;border-radius:999px;background:linear-gradient(90deg,#ff8a3d,#ffd24d);color:#081224}
+
+    /* fan animation */
+    .fan{
+      position:absolute;right:18px;bottom:-12px;width:70px;height:70px;opacity:0.95;
+      display:flex;align-items:center;justify-content:center;
+      transform-origin:center;
+      animation: spin 2s linear infinite;
+    }
+    @keyframes spin{from{transform:rotate(0)} to{transform:rotate(360deg)}}
+
+    /* main grid */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .col-8{grid-column:span 8}
+    .col-4{grid-column:span 4}
+    @media(max-width:900px){.col-8,.col-4{grid-column:span 12}}
+
+    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 12px 36px rgba(8,20,40,0.06);}
+
+    h2.section-title{margin:0;font-size:1.05rem;color:var(--accent)}
+    p.lead{margin:8px 0 0;color:var(--muted);font-size:0.95rem}
+
+    /* gallery */
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:12px}
+    .gallery .item{background:linear-gradient(180deg,#fff,#fbfdff);border-radius:10px;padding:10px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;box-shadow:0 10px 26px rgba(8,20,40,0.04)}
+    .gallery img{width:100%;height:160px;object-fit:cover;border-radius:8px}
+    .cap{margin-top:8px;font-weight:800;color:var(--accent2)}
+    .subcap{margin-top:4px;color:var(--muted);font-size:0.9rem}
+
+    /* small stats */
+    .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+    .stat{background:linear-gradient(180deg,#fff,#fbfdff);padding:14px;border-radius:12px;min-width:120px;text-align:center;box-shadow:0 10px 26px rgba(8,20,40,0.04)}
+    .stat h3{margin:0;font-size:1.2rem;color:var(--accent2)}
+    .stat p{margin:6px 0 0;color:var(--muted);font-size:0.88rem}
+
+    /* notifications */
+    .notify-wrap{position:fixed;right:18px;bottom:18px;z-index:9999;display:flex;flex-direction:column-reverse;gap:12px}
+    .notify{background:linear-gradient(180deg,#fff,#f8fbff);padding:12px;border-radius:12px;min-width:280px;box-shadow:0 12px 30px rgba(8,20,40,0.12);display:flex;gap:10px;align-items:center;border-left:6px solid var(--accent2)}
+    .notify strong{display:block}
+    .notify small{color:var(--muted);display:block}
+
+    /* watchlist */
+    .watchlist{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+    .ticker{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;background:#fff;border:1px solid rgba(8,20,40,0.03)}
+    .ticker .left{display:flex;gap:12px;align-items:center}
+    .ticker .symbol{font-weight:800;color:var(--accent2)}
+    .ticker .price{font-weight:700}
+    .ticker .change.plus{color:green}
+    .ticker .change.minus{color:var(--danger)}
+
+    /* glossary */
+    .glossary{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px}
+    .term{background:#fff;padding:12px;border-radius:8px;border-left:6px solid var(--accent2);box-shadow:0 8px 20px rgba(8,20,40,0.03)}
+
+    /* testimonials */
+    .testimony{background:linear-gradient(180deg,#fff,#fbfdff);padding:12px;border-radius:10px;border-left:6px solid var(--gold)}
+    .testimony img{width:100%;height:140px;object-fit:cover;border-radius:8px}
+
+    /* sticky cats */
+    .sticky-cat{position:fixed;left:18px;bottom:18px;z-index:9998;background:linear-gradient(90deg,#ffd24d,#ff8a3d);color:#081224;padding:12px 14px;border-radius:999px;box-shadow:0 12px 30px rgba(255,120,40,0.12);cursor:pointer;font-weight:900;display:flex;gap:10px;align-items:center}
+    .sticky-cat .emoji{font-size:1.3rem}
+
+    /* fan small icon */
+    .fan-icon{width:54px;height:54px;border-radius:999px;background:linear-gradient(180deg,#fff,#f3f9ff);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(8,20,40,0.06)}
+    .fan-blade{width:34px;height:34px;border-radius:50%;display:block;background:linear-gradient(90deg,#e6f0ff,#dbeeff);position:relative;overflow:hidden}
+    .fan-blade::after{content:'';position:absolute;left:50%;top:4px;width:6px;height:16px;background:#cfe6ff;border-radius:4px;transform:translateX(-50%);box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+    .fan-rot{animation:spin 1.6s linear infinite}
+
+    /* footer */
+    footer{padding:30px 18px;margin-top:36px;text-align:center;color:#fff;background:linear-gradient(135deg,var(--accent2),var(--accent));border-radius:12px}
+    footer p{margin:6px 0;color:rgba(255,255,255,0.95)}
+
+    /* modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(3,6,23,0.5);display:none;align-items:center;justify-content:center;z-index:9999}
+    .modal{background:var(--card);padding:18px;border-radius:12px;max-width:520px;width:96%;box-shadow:0 20px 60px rgba(3,10,30,0.45)}
+    .close{float:right;border:none;background:transparent;font-size:1.2rem;cursor:pointer}
+    /* small helpers */
+    .muted{color:var(--muted)} .small{font-size:0.88rem}
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="mentor-badge" id="mentorBadge" style="background:linear-gradient(90deg,#ff8a3d,#ffd24d);">
+        <div style="font-size:0.95rem">MENTORS</div>
+        <div class="mentor-count" id="mentorCount">12</div>
+      </div>
+
+      <div class="top-stats">
+        <small>Visitors</small>
+        <div class="visitor" id="visitorCount">1,238</div>
+      </div>
+
+      <h1>📈 Options Trading University — Proof & Course</h1>
+      <p>One-page course + proof gallery. DM me privately on TikTok to get started (no link needed). Replace placeholders with your real images anytime.</p>
+      <div class="cta-row" style="margin-top:10px">
+        <button class="btn primary" onclick="openModal()">DM me on TikTok</button>
+        <button class="btn ghost" onclick="scrollTo('profitGallery')">Show Proof</button>
+        <button class="btn" onclick="openFakeNotif()">Live Alerts</button>
+      </div>
+
+      <!-- small fan -->
+      <div class="fan" title="Fan energy">
+        <div class="fan-icon fan-rot" aria-hidden="true">
+          <div class="fan-blade"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- quick intro / stats -->
+    <div style="margin-top:18px" class="grid">
+      <div class="col-8">
+        <div class="card">
+          <h2 class="section-title">Hook — Proof of What We Do</h2>
+          <p class="lead">Real screenshots, trade stories, and example strategies for options traders. Scroll to see profit proof, testimonials, watchlist, lessons, and more. DM me privately on TikTok for more — real students only.</p>
+
+          <div class="stat-row">
+            <div class="stat">
+              <h3 id="totalProfit">$1.2M</h3>
+              <p>Total displayed profits</p>
+            </div>
+            <div class="stat">
+              <h3 id="tradesCount">1,452</h3>
+              <p>Trades tracked</p>
+            </div>
+            <div class="stat">
+              <h3 id="winRate">86%</h3>
+              <p>Win rate</p>
+            </div>
+            <div class="stat">
+              <h3 id="userRating">4.9★</h3>
+              <p>User rating</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="card">
+          <h2 class="section-title">Quick Actions</h2>
+          <p class="small muted">Tell people: "DM me privately on TikTok" — keep it simple. No link needed.</p>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-direction:column">
+            <button class="btn primary" onclick="openModal()">DM me on TikTok</button>
+            <button class="btn" onclick="scrollTo('modules')">Open Modules</button>
+            <button class="btn" onclick="scrollTo('glossary')">Open Glossary</button>
+          </div>
+          <div style="margin-top:12px" class="small muted">Mentor slots: <span id="mentorTicker" style="font-weight:800;color:var(--accent2)">12</span> — rotating weekly.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFIT GALLERY (include every profit link you sent) -->
+    <section id="profitGallery" style="margin-top:22px">
+      <h2 class="section-title">💰 Profit Highlights — Proof (replace with yours)</h2>
+      <p class="lead">These images are your uploaded proofs (from deposit.pictures). Each caption shows the amount you sent with that image.</p>
+
+      <div class="gallery">
+        <div class="item">
+          <img src="https://deposit.pictures/p/d7d291c9face4f6789167425a0e23b72" alt="70k">
+          <div class="cap">$70k</div><div class="subcap">Full profit screenshot</div>
+        </div>
+
+        <div class="item">
+          <img src="https://deposit.pictures/p/b446602133f44141a1ba5a10566f562b" alt="83k">
+          <div class="cap">$83k</div><div class="subcap">Flex screenshot</div>
+        </div>
+
+        <div class="item">
+          <img src="https://deposit.pictures/p/35ee106ab5d64dc4bdf2a3679aa63dc6" alt="140k">
+          <div class="cap">$140k</div><div class="subcap">Big win</div>
+        </div>
+
+        <div class="item">
+          <img src="https://deposit.pictures/p/f30c175a43124a568883d9f1b62df431" alt="790k">
+          <div class="cap">$790k (8k today)</div><div class="subcap">Massive account — 8k made today</div>
+        </div>
+
+        <div class="item">
+          <img src="https://deposit.pictures/p/ee31ac61a78140299798a99f822dde56" alt="52k">
+          <div class="cap">$52k (3,400 today)</div><div class="subcap">Active daily profit</div>
+        </div>
+
+        <div class="item">
+          <img src="https://deposit.pictures/p/9bfeade380664c5487c3b54fbc33e437" alt="18.9k">
+          <div class="cap">$18.9k</div><div class="subcap">Swing P&L</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- House & Cars gallery -->
+    <section style="margin-top:20px">
+      <h2 class="section-title">Lifestyle — Houses & Cars (placeholders)</h2>
+      <p class="lead">Scenery & cars to add credibility and lifestyle appeal.</p>
+
+      <div class="gallery">
+        <div class="item">
+          <img src="https://deposit.pictures/p/b47d6f6f62464af28a343d0c4d76a81b" alt="house">
+          <div class="cap">Dream Scenery</div><div class="subcap">House / scenery</div>
+        </div>
+
+        <div class="item">
+          <img src="https://deposit.pictures/p/20c54275937742179801f1009eec24b3" alt="car1">
+          <div class="cap">Car Collection</div><div class="subcap">Luxury car placeholder</div>
+        </div>
+
+        <div class="item">
+          <img src="https://deposit.pictures/p/aadca9d5a670455b9d6902c9be2b58f4" alt="19-4k">
+          <div class="cap">~19.4k</div><div class="subcap">Car / sale value</div>
+        </div>
+
+        <div class="item">
+          <img src="https://deposit.pictures/p/8ab14bb3660a431996169e32b7b88d7a" alt="205">
+          <div class="cap">$205</div><div class="subcap">Small trade screenshot</div>
+        </div>
+
+        <div class="item">
+          <img src="https://deposit.pictures/p/48eec822fcb54cedb034311aa309c31c" alt="7.2k">
+          <div class="cap">$7.2k</div><div class="subcap">Trade result</div>
+        </div>
+
+        <div class="item">
+          <img src="https://deposit.pictures/p/175be3194654450d9c03ecde847f2beb" alt="-416">
+          <div class="cap">-$416</div><div class="subcap">Loss example (real talk)</div>
+        </div>
+
+        <div class="item">
+          <img src="https://deposit.pictures/p/20b94527c8da4b66b6b94994c4e955be" alt="1.1k">
+          <div class="cap">$1.1k</div><div class="subcap">Small swing</div>
+        </div>
+
+        <div class="item">
+          <img src="https://deposit.pictures/p/ff2840b454744d959dfa724e35d51f74" alt="3.3k">
+          <div class="cap">$3.3k</div><div class="subcap">Day trade</div>
+        </div>
+
+        <div class="item">
+          <img src="https://deposit.pictures/p/78e1c7c6487842248bde22a310e6bd25" alt="-2.3k">
+          <div class="cap">-$2.3k</div><div class="subcap">Loss example</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Profit screenshots / flex -->
+    <section style="margin-top:22px">
+      <h2 class="section-title">Profit Screenshots / Flex</h2>
+      <p class="lead">More proof images —  add captions as needed.</p>
+      <div class="gallery">
+        <div class="item"><img src="https://deposit.pictures/p/d16fc11b6e4b4fb39c84777795185538" alt=""><div class="cap">Flex 1</div></div>
+        <div class="item"><img src="https://deposit.pictures/p/e91e82321b8943f2b7d6f886dea29bdd" alt=""><div class="cap">Flex 2</div></div>
+        <div class="item"><img src="https://deposit.pictures/p/9542216011364c4fb2b339b54846db17" alt=""><div class="cap">Flex 3</div></div>
+        <div class="item"><img src="https://deposit.pictures/p/49f17fb1baae4a20aa39a0c70150ddc7" alt=""><div class="cap">Flex 4</div></div>
+        <div class="item"><img src="https://deposit.pictures/p/cb8d00375eaa49919263dd0075398cc6" alt=""><div class="cap">Flex 5</div></div>
+      </div>
+    </section>
+
+    <!-- Testimonials 2024 -->
+    <section style="margin-top:22px">
+      <h2 class="section-title">Testimonials (2024)</h2>
+      <p class="lead">Real messages and screenshots from 2024 students.</p>
+      <div class="gallery">
+        <div class="item"><img src="https://deposit.pictures/p/5eac341e39d842fbaf1838ecb92fb4d4" alt=""><div class="cap">2024 Testimonial 1</div></div>
+        <div class="item"><img src="https://deposit.pictures/p/ffd29105c1264f78a710ac5941abd22b" alt=""><div class="cap">2024 Testimonial 2</div></div>
+        <div class="item"><img src="https://deposit.pictures/p/c5cf08575ec74f76ad8462357389d147" alt=""><div class="cap">2024 Testimonial 3</div></div>
+        <div class="item"><img src="https://deposit.pictures/p/2fd5a9c3f8c24a50adceb1ce2b3640af" alt=""><div class="cap">2024 Testimonial 4</div></div>
+      </div>
+    </section>
+
+    <!-- Testimonials 2025 -->
+    <section style="margin-top:22px">
+      <h2 class="section-title">Testimonials (2025)</h2>
+      <div class="gallery">
+        <div class="item"><img src="https://deposit.pictures/p/3e5722ec53084a10ae398ef5dfb5c4c8" alt=""><div class="cap">2025 Test 1</div></div>
+        <div class="item"><img src="https://deposit.pictures/p/b2b4c375073f445c84730684b97e4972" alt=""><div class="cap">2025 Test 2</div></div>
+        <div class="item"><img src="https://deposit.pictures/p/fe95d1213f124338892bb2f95b430ae5" alt=""><div class="cap">2025 Test 3</div></div>
+        <div class="item"><img src="https://deposit.pictures/p/c6a6e7925dae4d2f8e6dad55754851eb" alt=""><div class="cap">2025 Test 4</div></div>
+      </div>
+    </section>
+
+    <!-- Watchlist (placeholder) -->
+    <section id="watchlist" style="margin-top:22px">
+      <h2 class="section-title">Watchlist — Latest (placeholder)</h2>
+      <p class="lead">Connect to a price API later to show real-time prices. For now, this looks live and updates randomly for demo.</p>
+
+      <div class="card">
+        <div class="watchlist" id="watchlistList">
+          <!-- JS will populate -->
+        </div>
+        <div style="margin-top:12px" class="small muted">Tip: Hook this to an API (e.g., IEX, Finnhub, AlphaVantage) for live quotes.</div>
+      </div>
+    </section>
+
+    <!-- Modules (condensed) -->
+    <section id="modules" style="margin-top:22px">
+      <h2 class="section-title">Modules — Full Curriculum (Condensed)</h2>
+      <p class="lead">All your modules are included. Copy/paste or keep it all on one page.</p>
+      <div class="grid" style="margin-top:12px">
+        <div class="col-8">
+          <div class="card">
+            <h3 style="color:var(--accent2)">Module 1: Options Trading 101</h3>
+            <p><b>Lesson 1:</b> What is an Option? Calls & Puts — right not obligation. Example: AAPL $175 Call if stock goes above $175 by expiry.</p>
+            <p><b>Lesson 2:</b> Anatomy — Strike, Expiration, Premium, Greeks (advanced).</p>
+            <p><b>Lesson 3:</b> Why Trade Options? Leverage, defined risk, flexibility.</p>
+
+            <hr>
+
+            <h3 style="color:var(--accent2)">Module 2: Getting Started Trading</h3>
+            <p>Platforms: Webull, TradingView, Robinhood, thinkorswim. Order types: Market, Limit, Stop.</p>
+
+            <h3 style="color:var(--accent2)">Module 3: Reading the Chart</h3>
+            <p>Candlestick basics, support & resistance, EMAs (10/20/50).</p>
+
+            <h3 style="color:var(--accent2)">Module 4: Building Strategy</h3>
+            <p>Trend trading, scalping, journaling & review (journal table included earlier in full page version).</p>
+
+            <h3 style="color:var(--accent2)">Module 5: Trader Mindset</h3>
+            <p>Discipline, progress over perfection, avoid info overload.</p>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card">
+            <h3 style="color:var(--accent2)">Quick Rules</h3>
+            <ul style="margin:8px 0;padding-left:18px;color:var(--muted)">
+              <li>Risk 1–5% per trade</li>
+              <li>Cut losers fast</li>
+              <li>Journal every trade</li>
+              <li>Focus 1–2 setups</li>
+            </ul>
+            <div style="margin-top:8px" class="fomo" >First 10 DMs get free 3-trade review</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Glossary -->
+    <section id="glossary" style="margin-top:22px">
+      <h2 class="section-title">Glossary & Trader Slang</h2>
+      <div class="glossary">
+        <div class="term"><b>CALL</b> → You want stock to go UP.</div>
+        <div class="term"><b>PUT</b> → You want stock to go DOWN.</div>
+        <div class="term"><b>STRIKE</b> → The price your option controls.</div>
+        <div class="term"><b>PREMIUM</b> → Price you pay for the option.</div>
+        <div class="term"><b>EXPIRATION</b> → Option's deadline.</div>
+        <div class="term"><b>ITM / OTM / ATM</b> → In / Out / At the money.</div>
+        <div class="term"><b>GREEKS</b> → Delta, Theta, Gamma, Vega.</div>
+        <div class="term"><b>OPEN INTEREST</b> → Contracts open (liquidity).</div>
+        <div class="term"><b>SWEEP</b> → Big aggressive buy (usually institutions).</div>
+        <div class="term"><b>FOMO</b> → Fear of missing out.</div>
+        <div class="term"><b>BAGHOLDER</b> → Stuck in losing trade.</div>
+        <div class="term"><b>WICKED OUT</b> → Stopped out by wick spike.</div>
+        <div class="term"><b>ROLLING</b> → Move position to later expiry.</div>
+        <div class="term"><b>PUMP / RUG</b> → Hype moves / fake breakouts.</div>
+      </div>
+    </section>
+
+    <!-- CTA / Footer -->
+    <section style="margin-top:22px">
+      <div class="card" style="text-align:center">
+        <h2 class="section-title">Ready to Learn? DM me on TikTok</h2>
+        <p class="lead">No link needed — DM me privately on TikTok and say "Found your trading page" to get priority. First 10 get a free review.</p>
+        <div style="margin-top:12px">
+          <button class="btn primary" onclick="openModal()">DM me on TikTok</button>
+        </div>
+      </div>
+    </section>
+
+    <footer style="margin-top:26px">
+      <p style="font-weight:800;font-size:1.05rem">Options Trading University</p>
+      <p class="small muted">This page is educational. Results vary — replace placeholders with your real images & stats for full credibility.</p>
+      <p style="margin-top:8px;color:rgba(255,255,255,0.9)">© <span id="year"></span> — Built with ❤️</p>
+    </footer>
+
+  </div> <!-- container -->
+
+  <!-- Sticky Cats button -->
+  <div class="sticky-cat" id="stickyCatBtn" title="Cats & surprises" onclick="openCats()">
+    <div class="emoji">🐱</div>
+    <div style="font-weight:900">Sticky Cats</div>
+  </div>
+
+  <!-- notifications wrapper -->
+  <div class="notify-wrap" id="notifyWrap"></div>
+
+  <!-- Modal for TikTok DM -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <button class="close" onclick="closeModal()">✕</button>
+      <h3 style="margin-top:0">Message Me on TikTok</h3>
+      <p class="small muted">Private DM on TikTok. Suggested message below — copy & send: </p>
+      <div style="background:#f5f9ff;padding:10px;border-radius:8px;margin-top:8px;font-family:monospace">
+        Hey — I found your Options Trading University page. I want a trade review and to join your waitlist. — <i>Your name</i>
+      </div>
+      <div style="margin-top:12px;display:flex;justify-content:flex-end;gap:8px">
+        <button class="btn" onclick="closeModal()">Close</button>
+        <button class="btn primary" onclick="closeModal()">I will DM now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cats modal -->
+  <div class="modal-backdrop" id="catsModal">
+    <div class="modal">
+      <button class="close" onclick="closeCats()">✕</button>
+      <h3 style="margin-top:0">Sticky Cats — Little bonus</h3>
+      <p class="small muted">Because every page needs a small vibe. Say hi to the cat — and DM me on TikTok for an exclusive tip ❤️🐱</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
+        <div style="flex:1;min-width:140px;background:#fff;padding:10px;border-radius:8px;text-align:center">
+          <div style="font-size:2.2rem">🐾</div>
+          <div style="font-weight:800;margin-top:6px">Cat perk</div>
+          <div class="small muted">Drop "CAT" in your DM to get a free mini-tip</div>
+        </div>
+        <div style="flex:2;min-width:140px;background:#fff;padding:10px;border-radius:8px">
+          <div class="small muted">Fan favorite tip: "Start small, journal every trade, and stop chasing FOMO."</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;justify-content:flex-end">
+        <button class="btn" onclick="closeCats()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // visitor counter (simulated, subtle)
+    (function(){
+      const el = document.getElementById('visitorCount');
+      // start at a believable number but randomize a bit per session
+      let base = parseInt(localStorage.getItem('visitorBase') || Math.floor(1100 + Math.random()*400));
+      // increment slowly every 6-10 seconds
+      el.textContent = base.toLocaleString();
+      setInterval(()=>{
+        base += Math.floor(Math.random()*3); // small increments
+        el.textContent = base.toLocaleString();
+        localStorage.setItem('visitorBase', base);
+      }, 7000);
+    })();
+
+    // mentor animation color-rolling (text update)
+    (function(){
+      const m = document.getElementById('mentorCount');
+      // keep 12 as requested, but animate colors
+      const container = document.getElementById('mentorBadge');
+      let hue = 30;
+      setInterval(()=> {
+        hue = (hue + 18) % 360;
+        container.style.background = 'linear-gradient(90deg, hsl('+hue+',85%,60%), hsl('+(hue+40)%360+',85%,60%))';
+      }, 900);
+    })();
+
+    // show totalProfit trades count winRate (you asked them to look convincing)
+    (function(){
+      // these are display numbers you can update
+      const totalProfit = document.getElementById('totalProfit');
+      const tradesCount = document.getElementById('tradesCount');
+      const winRate = document.getElementById('winRate');
+      const userRating = document.getElementById('userRating');
+
+      // sample numbers (edit these to your real values)
+      totalProfit.textContent = '$1.2M';        // summary displayed
+      tradesCount.textContent = '1,452';
+      winRate.textContent = '86%';
+      userRating.textContent = '4.9★';
+    })();
+
+    // watchlist sample tickers (placeholder)
+    (function(){
+      const list = [
+        {s:'SPY', p:463.42, c:'+0.73'},
+        {s:'QQQ', p:367.14, c:'-0.84'},
+        {s:'AAPL', p:172.68, c:'+1.25'},
+        {s:'TSLA', p:257.12, c:'-3.12'},
+        {s:'AMZN', p:156.90, c:'+2.05'},
+      ];
+      const container = document.getElementById('watchlistList');
+      function render(){
+        container.innerHTML = '';
+        list.forEach(t=>{
+          const el = document.createElement('div'); el.className='ticker';
+          el.innerHTML = '<div class="left"><div class="symbol">'+t.s+'</div><div class="small muted">'+t.p.toFixed(2)+'</div></div><div class="right"><div class="price">$'+t.p.toFixed(2)+'</div><div class="change '+(String(t.c).startsWith('-')?'minus':'plus')+'">'+t.c+'</div></div>';
+          container.appendChild(el);
+        });
+      }
+      // small random fluctuation to feel alive
+      setInterval(()=>{
+        list.forEach(t=>{
+          let change = (Math.random()-0.45)*(Math.random()*2);
+          t.p = Math.max(0.5, t.p + change);
+          t.c = (change >= 0 ? '+' : '') + change.toFixed(2);
+        });
+        render();
+      }, 2500);
+      render();
+    })();
+
+    // Notifications: auto and manual
+    (function(){
+      const wrap = document.getElementById('notifyWrap');
+      const samples = [
+        {title:'New Trade Alert', text:'$SPX calls — +320% move (screenshot added)'},
+        {title:'Subscriber DM', text:'"Can you review my trade from this morning?"'},
+        {title:'Win Shared', text:'$QQQ scalp — $3.5k (uploaded)'},
+        {title:'New Follower', text:'1,200 new followers this week'},
+        {title:'Reminder', text:'Join waitlist — DM "START" on TikTok'}
+      ];
+      function pushNotice(s){
+        const d = document.createElement('div'); d.className='notify';
+        d.innerHTML = '<div style="width:44px;height:44px;border-radius:8px;background:linear-gradient(90deg,var(--accent2),var(--accent));color:white;display:flex;align-items:center;justify-content:center;font-weight:800">P</div>'
+                      + '<div style="flex:1"><strong>'+s.title+'</strong><small>'+s.text+'</small></div><div style="font-size:0.82rem;color:var(--muted)">'+new Date().toLocaleTimeString().replace(/:\\d+ /,' ')+'</div>';
+        wrap.appendChild(d);
+        setTimeout(()=>{ d.style.opacity=0; setTimeout(()=>d.remove(),800); },9000);
+      }
+      // initial ones
+      samples.slice(0,2).forEach(s=>setTimeout(()=>pushNotice(s), 600));
+      // occasional random
+      setInterval(()=> pushNotice(samples[Math.floor(Math.random()*samples.length)]), 14000);
+
+      // expose manual trigger
+      window.openFakeNotif = function(){ pushNotice(samples[Math.floor(Math.random()*samples.length)]) }
+    })();
+
+    // modal open/close
+    function openModal(){ document.getElementById('modalBackdrop').style.display='flex'; }
+    function closeModal(){ document.getElementById('modalBackdrop').style.display='none'; }
+
+    // sticky cats open
+    function openCats(){ document.getElementById('catsModal').style.display='flex'; }
+    function closeCats(){ document.getElementById('catsModal').style.display='none'; }
+
+    // scroll helper
+    function scrollTo(id){
+      const el = document.getElementById(id);
+      if(!el) return window.scrollTo({top:0,behavior:'smooth'});
+      const top = el.getBoundingClientRect().top + window.scrollY - 20;
+      window.scrollTo({top,behavior:'smooth'});
+    }
+
+    // make mentor ticker change color text
+    (function(){
+      const el = document.getElementById('mentorTicker');
+      setInterval(()=> {
+        const cols = ['#0b2b54','#1767c3','#ff8a3d','#ffd24d','#3ecf8e'];
+        el.style.color = cols[Math.floor(Math.random()*cols.length)];
+      }, 1100);
+    })();
+
+  </script>
+</body>
+</html>
