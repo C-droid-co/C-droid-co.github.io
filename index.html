@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Options Trading University — One Page</title>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<style>
+  /* ---------- Base ---------- */
+  :root{
+    --bg:#f5f8fb;
+    --card:#ffffff;
+    --accent:#1e3c72;
+    --accent-2:#2a5298;
+    --muted:#6b7280;
+    --success:#16a34a;
+    --danger:#ef4444;
+    --glass: rgba(255,255,255,0.6);
+    --gold:#ffd24d;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif;
+    background:linear-gradient(180deg,#eef4ff 0%,var(--bg) 60%);
+    color:#111827;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+  a{color:var(--accent)}
+  .container{max-width:1100px;margin:0 auto;padding:28px}
+  header.hero{
+    background: linear-gradient(135deg,var(--accent),var(--accent-2));
+    color:white;
+    padding:56px 20px;
+    border-radius:12px;
+    margin:18px 0;
+    box-shadow:0 15px 40px rgba(20,40,80,0.18);
+    text-align:center;
+  }
+  header.hero h1{font-size:2.6rem;margin:0 0 8px}
+  header.hero p{margin:0 0 18px;font-size:1.1rem;opacity:0.95}
+  .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{
+    background:linear-gradient(180deg,#fff8ea,#ffd24d);
+    border:none;padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12);color:#111;
+  }
+  .btn.primary{
+    background:linear-gradient(180deg,var(--accent-2),var(--accent));
+    color:white;padding:12px 18px;border-radius:10px;box-shadow:0 10px 30px rgba(20,40,80,0.2);
+  }
+  /* ---------- notifications (fake popups) ---------- */
+  .notify-wrap{position:fixed;right:18px;bottom:18px;z-index:9999}
+  .notify{
+    background:linear-gradient(180deg,#fff,#f4fbff);
+    border-left:6px solid var(--accent-2);
+    padding:12px 14px;margin-top:12px;border-radius:10px;min-width:260px;
+    box-shadow:0 10px 26px rgba(20,40,80,0.12);font-size:0.95rem;
+    display:flex;gap:10px;align-items:center;
+  }
+  .notify small{color:var(--muted);display:block;font-size:0.78rem}
+  .notify strong{display:block}
+  /* ---------- grid & cards ---------- */
+  .grid {display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+  .col-8{grid-column:span 8}
+  .col-4{grid-column:span 4}
+  @media(max-width:880px){.col-8,.col-4{grid-column:span 12}}
+  .card{
+    background:var(--card);padding:18px;border-radius:12px;box-shadow:0 8px 24px rgba(15,30,60,0.06);
+  }
+  h2.section-title{margin:0;font-size:1.2rem;color:var(--accent)}
+  p.lead{margin:10px 0 0;color:var(--muted);font-size:0.98rem}
+  .badge{display:inline-block;background:#fff;padding:6px 10px;border-radius:999px;border:1px solid rgba(34,45,87,0.06);font-weight:700;color:var(--accent-2)}
+  /* ---------- lessons ---------- */
+  .lesson{border-left:5px solid var(--accent-2);padding:14px 16px;border-radius:8px;background:linear-gradient(180deg,#ffffff,#fcfdff);margin-bottom:12px}
+  .lesson h3{margin:0;color:var(--accent-2)}
+  .lesson p{margin:8px 0;color:#3b3f45}
+  .flex{display:flex;gap:12px;align-items:center}
+  .pill{background:#eef6ff;padding:6px 10px;border-radius:999px;color:var(--accent-2);font-weight:700}
+  /* ---------- glossary ---------- */
+  .glossary{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .term{background:#fff;padding:12px;border-radius:10px;border-left:6px solid var(--accent-2);box-shadow:0 6px 18px rgba(20,40,80,0.03)}
+  .term b{display:block;color:var(--accent)}
+  /* ---------- gallery/profit ---------- */
+  .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .placeholder{height:160px;background:linear-gradient(135deg,#f8fafc,#eef6ff);border-radius:10px;border:2px dashed rgba(40,70,140,0.08);display:flex;align-items:center;justify-content:center;flex-direction:column;color:var(--muted)}
+  .placeholder img{max-width:100%;max-height:100%;border-radius:8px}
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+  .stat{background:#fff;padding:14px;border-radius:12px;min-width:120px;text-align:center;box-shadow:0 8px 24px rgba(20,40,80,0.04)}
+  .stat h3{margin:0;font-size:1.25rem;color:var(--accent-2)}
+  .stat p{margin:6px 0 0;color:var(--muted);font-size:0.9rem}
+  /* journal */
+  table.journal{width:100%;border-collapse:collapse;margin-top:12px}
+  table.journal th, table.journal td{padding:10px;border-bottom:1px solid #eef2ff;text-align:left;font-size:0.95rem}
+  table.journal th{background:#fbfdff}
+  /* stories/testimonials */
+  .testimony{background:linear-gradient(180deg,#fff,#fbfdff);padding:14px;border-radius:12px;border-left:5px solid #ffd24d}
+  /* footer */
+  footer{padding:36px 20px;margin-top:36px;text-align:center;color:white;background:linear-gradient(135deg,var(--accent-2),var(--accent));border-radius:12px}
+  footer p{margin:8px 0}
+  /* CTA footer */
+  .cta-big{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;align-items:center}
+  /* small helpers */
+  .muted{color:var(--muted)}
+  .small{font-size:0.85rem;color:var(--muted)}
+  .quote{background:#fff7e6;border-left:6px solid var(--gold);padding:12px;border-radius:8px;margin:12px 0}
+  .fomo{background:linear-gradient(90deg,#ff4d6d,#ff8a3d);color:white;padding:10px;border-radius:10px;font-weight:800;text-align:center;box-shadow:0 12px 30px rgba(255,80,60,0.12)}
+  /* modal */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(3,6,23,0.5);display:none;align-items:center;justify-content:center;z-index:9998}
+  .modal{background:var(--card);padding:22px;border-radius:12px;max-width:480px;width:94%;box-shadow:0 20px 60px rgba(3,10,30,0.45)}
+  .close{float:right;border:none;background:transparent;font-size:1.1rem;cursor:pointer}
+  /* responsive */
+  @media(max-width:560px){
+    header.hero h1{font-size:1.8rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- Notifications (auto) -->
+<div class="notify-wrap" id="notifyWrap">
+  <!-- JS will inject notifications -->
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div style="display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap">
+      <span class="badge">Free</span>
+      <span class="badge">Beginner → Advanced</span>
+      <span class="badge">Single Page</span>
+    </div>
+    <h1>📈 Options Trading University — One Page Crash Course</h1>
+    <p>All lessons, slang, charts, strategies, mindset, and PROOF placeholders. Scroll, learn, and DM me on TikTok to get started. No link needed — message me privately on TikTok.</p>
+    <div class="cta-row" style="margin-top:18px">
+      <button class="btn primary" onclick="openModal()">Message me on TikTok</button>
+      <button class="btn" onclick="scrollToSection('modules')">Start Learning ↓</button>
+      <button class="btn" onclick="openFakeNotification()">Show Live Alerts</button>
+    </div>
+    <div style="margin-top:18px;color:rgba(255,255,255,0.9)" class="small">Pro tip: Replace profit screenshots in the gallery with your own to flex credibility.</div>
+  </div>
+</header>
+
+<!-- Container -->
+<div class="container">
+
+  <!-- Top quick stats & quick story -->
+  <div class="grid" style="margin-top:18px">
+    <div class="col-8">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+          <div>
+            <h2 class="section-title">Welcome — Start Here</h2>
+            <p class="lead">This single page covers Modules 1–5, a full glossary (including Fintwit slang), strategy templates, journaling, example trades, testimonials, and many placeholders so you can show off profits. Scroll or tap any section in the left menu. To learn more, DM me privately on TikTok — no link required.</p>
+          </div>
+          <div style="min-width:220px">
+            <div class="stat-row">
+              <div class="stat">
+                <h3 id="statProfit">12.3k+</h3>
+                <p>Displayed Wins</p>
+              </div>
+              <div class="stat">
+                <h3>3</h3>
+                <p>Trading Styles</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px">
+          <div class="fomo">Limited 1-on-1 spots — DM me on TikTok to join waitlist 🔥</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="card">
+        <h2 class="section-title">Quick Actions</h2>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:10px">
+          <button class="btn primary" onclick="scrollToSection('profit')">Upload Proof / Profit</button>
+          <button class="btn" onclick="scrollToSection('modules')">Jump to Modules</button>
+          <button class="btn" onclick="scrollToSection('glossary')">Open Glossary</button>
+        </div>
+        <div style="margin-top:12px" class="small muted">Want fans to DM you? Tell them: "DM me privately on TikTok" — don't include links to keep it organic.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFIT SHOWCASE -->
+  <section id="profit" style="margin-top:26px">
+    <h2 class="section-title">💰 Profit Showcase & Social Proof</h2>
+    <p class="lead">Placeholders you can replace with screenshots (PNG/JPG). Make your proof bold — include trade size & time to create FOMO.</p>
+
+    <div class="gallery" style="margin-top:14px">
+      <div class="card">
+        <div class="placeholder">
+          <img src="profit1.png" alt="profit 1 placeholder" onerror="this.style.opacity=0.25">
+          <div style="margin-top:8px"><strong>$7.2k</strong> — SPX Calls • 12 min</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="placeholder">
+          <img src="profit2.png" alt="profit 2 placeholder" onerror="this.style.opacity=0.25">
+          <div style="margin-top:8px"><strong>$3.5k</strong> — QQQ Reversal • Live</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="placeholder">
+          <img src="profit3.png" alt="profit 3 placeholder" onerror="this.style.opacity=0.25">
+          <div style="margin-top:8px"><strong>$859</strong> — SPX 6430c • Daytrade</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="placeholder">
+          <img src="profit4.png" alt="profit 4 placeholder" onerror="this.style.opacity=0.25">
+          <div style="margin-top:8px"><strong>$11.9k</strong> — Options Swing</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px">
+      <div class="small muted">Replace the placeholder image files in your repo with real screenshots named profit1.png, profit2.png, etc. Resize them before upload (900–1200px wide recommended).</div>
+    </div>
+  </section>
+
+  <!-- MODULES -->
+  <section id="modules" style="margin-top:28px">
+    <h2 class="section-title">📚 Modules — Full Curriculum</h2>
+    <p class="lead">Everything is written so each lesson can be copied to a blog card or left on this page. Examples and mini-stories included to make it convincing.</p>
+
+    <!-- Module 1 -->
+    <div class="card" style="margin-top:14px">
+      <h3 style="margin:0;color:var(--accent-2)">MODULE 1: OPTIONS TRADING 101</h3>
+      <div style="margin-top:12px" class="lesson">
+        <h3>Lesson 1 — What Is An Option? (Calls & Puts)</h3>
+        <p>Options give you the <strong>right, not the obligation</strong> to buy (Call) or sell (Put) a stock at a specific price (strike) before expiration.</p>
+        <ul>
+          <li><b>Call = Bullish</b> — you win if stock goes up.</li>
+          <li><b>Put = Bearish</b> — you win if stock goes down.</li>
+          <li><b>Leverage:</b> Small moves in the stock can create large percentage moves in options (both up and down).</li>
+        </ul>
+        <div class="quote">Example: Apple at $170 — buying a $175 Call is a bet Apple goes above $175 before expiration.</div>
+      </div>
+
+      <div class="lesson">
+        <h3>Lesson 2 — Option Contract Anatomy</h3>
+        <ul>
+          <li><b>Strike Price</b> — the price you control.</li>
+          <li><b>Expiration Date</b> — the deadline of the contract.</li>
+          <li><b>Premium</b> — the price you pay to enter the option.</li>
+          <li><b>Greeks</b> — Delta, Theta, Gamma, Vega (covered later in advanced).</li>
+        </ul>
+      </div>
+
+      <div class="lesson">
+        <h3>Lesson 3 — Why Trade Options?</h3>
+        <ul>
+          <li><b>Leverage:</b> Turn small moves into large % returns.</li>
+          <li><b>Defined risk:</b> If you buy options, losses are typically limited to premium paid.</li>
+          <li><b>Flexibility:</b> Easily play long or short without borrowing shares.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Module 2 -->
+    <div class="card" style="margin-top:14px">
+      <h3 style="margin:0;color:var(--accent-2)">MODULE 2: GETTING STARTED TRADING</h3>
+
+      <div class="lesson">
+        <h3>Lesson 1 — Platforms + Order Types</h3>
+        <p>Recommended brokers: <b>Webull, TradingView (for charts), Robinhood, thinkorswim</b>. Use a broker that shows options chains, bid/ask, implied volatility, and open interest.</p>
+        <ul>
+          <li><b>Market Order</b> — fast execution (use carefully).</li>
+          <li><b>Limit Order</b> — control price, avoid poor fills.</li>
+          <li><b>Stop Orders</b> — protect positions but expect slippage in volatile markets.</li>
+        </ul>
+      </div>
+
+      <div class="lesson">
+        <h3>Lesson 2 — Choosing Contracts</h3>
+        <ul>
+          <li>Pick contracts with <b>high volume + open interest</b> (liquidity matters).</li>
+          <li>Avoid ultra-short weekly "lotto" contracts when you're new.</li>
+          <li>Stay near the current price: ATM or 1 strike ITM/OTM depending on your edge.</li>
+        </ul>
+      </div>
+
+      <div class="lesson">
+        <h3>Lesson 3 — Risk Management</h3>
+        <ul>
+          <li>NEVER risk more than <b>1–5%</b> of your account per trade.</li>
+          <li>Losses will happen — accept them and move on.</li>
+          <li>No revenge trading — protect capital always.</li>
+        </ul>
+        <div class="quote">Golden Rule: "Protect capital first. Profit later."</div>
+      </div>
+    </div>
+
+    <!-- Module 3 -->
+    <div class="card" style="margin-top:14px">
+      <h3 style="margin:0;color:var(--accent-2)">MODULE 3: READING THE CHART</h3>
+
+      <div class="lesson">
+        <h3>Lesson 1 — Candlestick Basics</h3>
+        <p><b>Green</b> = buyers (close > open). <b>Red</b> = sellers (close < open). Wicks show rejection. Focus on momentum candles for entries.</p>
+      </div>
+
+      <div class="lesson">
+        <h3>Lesson 2 — Support & Resistance</h3>
+        <p><b>Support</b> = buyer zone / price floors. <b>Resistance</b> = seller zone / price ceilings. Draw zones — don't chase exact levels.</p>
+      </div>
+
+      <div class="lesson">
+        <h3>Lesson 3 — Moving Averages (EMAs)</h3>
+        <p>Common EMAs: 10, 20, 50. Price above these indicates bullish bias; below indicates bearish bias. Use EMAs for dynamic support/resistance.</p>
+      </div>
+    </div>
+
+    <!-- Module 4 -->
+    <div class="card" style="margin-top:14px">
+      <h3 style="margin:0;color:var(--accent-2)">MODULE 4: BUILDING YOUR FIRST STRATEGY</h3>
+
+      <div class="lesson">
+        <h3>Lesson 1 — Trend Trading Made Simple</h3>
+        <ul>
+          <li>Find the trend (EMAs + higher highs/lows).</li>
+          <li>Enter pullbacks to EMAs or support zones.</li>
+          <li>Sell on strength — take profits fast on new moves.</li>
+        </ul>
+        <div class="quote">Mini-Example: Enter AAPL when price pulls to 20 EMA and volume confirms. Target short-term resistance — cut losses if price closes under 50 EMA.</div>
+      </div>
+
+      <div class="lesson">
+        <h3>Lesson 2 — Scalping for Small Accounts</h3>
+        <p>Trade liquid tickers: <b>SPY, QQQ, AAPL</b>. Use 1–5 minute charts with VWAP and short EMAs. Quick entries/exits for 10–30% option moves.</p>
+      </div>
+
+      <div class="lesson">
+        <h3>Lesson 3 — Journaling & Review</h3>
+        <p>Write every trade — entry, exit, size, reason, result. Review weekly to fix mistakes and identify patterns.</p>
+        <table class="journal">
+          <thead><tr><th>Date</th><th>Ticker</th><th>Entry</th><th>Exit</th><th>P/L</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>2025-09-01</td><td>SPY</td><td>$463c</td><td>$469c</td><td>$720</td><td>EMA bounce, scalp</td></tr>
+            <tr><td>2025-09-02</td><td>AAPL</td><td>$170 Call</td><td>$175 Call</td><td>$1,800</td><td>Breakout trade</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Module 5 -->
+    <div class="card" style="margin-top:14px">
+      <h3 style="margin:0;color:var(--accent-2)">MODULE 5: TRADER MINDSET (BONUS)</h3>
+
+      <div class="lesson">
+        <h3>Discipline Wins Always</h3>
+        <ul>
+          <li>Cut losers fast.</li>
+          <li>Ride winners smartly.</li>
+          <li>Never let one trade ruin your week.</li>
+        </ul>
+      </div>
+
+      <div class="lesson">
+        <h3>Focus on Progress, Not Perfection</h3>
+        <p>Losing days happen. Follow your process and improve daily. Trading is a skill — treat it like one.</p>
+      </div>
+
+      <div class="lesson">
+        <h3>Avoid Info Overload</h3>
+        <ul>
+          <li>Master 1–2 setups first — don’t chase everything.</li>
+          <li>Stay locked in on YOUR edge.</li>
+          <li>Consistency beats random plays.</li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- EXAMPLES, STORIES & CTA -->
+  <section style="margin-top:28px">
+    <div class="grid">
+      <div class="col-8">
+        <h2 class="section-title">Examples & Stories</h2>
+        <p class="lead">Real style mini-stories that you can edit to show your journey — copy/paste as testimonials or your "about" story.</p>
+
+        <div class="testimony" style="margin-top:12px">
+          <strong>Mini-Story — The 30-Min Fail Turned Win</strong>
+          <p class="small muted">"I wiped out a small position in my first month. Instead of quitting I rewrote my risk rules. Two months later I scaled to consistent small wins — that's when I learned journaling truly matters."</p>
+        </div>
+
+        <div class="testimony" style="margin-top:12px">
+          <strong>Mini-Example — How a $200 Lotto Turned Into a Lesson</strong>
+          <p class="small muted">"Bought a cheap call (lotto) and it expired worthless. Lesson learned: small risk = small learning. Now I reserve lotto risk to <= 0.5% of account."</p>
+        </div>
+
+        <div style="margin-top:12px" class="quote">CTA: Want to learn faster? DM me privately on TikTok — I respond to serious students only.</div>
+
+      </div>
+
+      <div class="col-4">
+        <div class="card">
+          <h2 class="section-title">Quick CTAs</h2>
+          <div style="margin-top:10px">
+            <button class="btn primary" onclick="openModal()">DM me on TikTok</button>
+            <div style="margin-top:8px" class="small muted">No link needed — message me privately on TikTok and say "I found your course".</div>
+            <div style="margin-top:12px" class="pill">FREE Tips • Weekly</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLOSSARY & SLANG -->
+  <section id="glossary" style="margin-top:28px">
+    <h2 class="section-title">🔤 Glossary — Options Terms & Fintwit / Discord Slang</h2>
+    <p class="lead">All terms included — copy these to a tooltip or popover on your site for instant clarity.</p>
+
+    <div class="glossary" style="margin-top:12px">
+      <!-- Terms (full list gathered) -->
+      <div class="term"><b>CALL</b> → You want the stock to go UP.</div>
+      <div class="term"><b>PUT</b> → You want the stock to go DOWN.</div>
+      <div class="term"><b>STRIKE PRICE</b> → The price the option controls.</div>
+      <div class="term"><b>PREMIUM</b> → The price you pay to buy the option.</div>
+      <div class="term"><b>EXPIRATION</b> → The date the option expires.</div>
+      <div class="term"><b>IN THE MONEY (ITM)</b> → Option already profitable.</div>
+      <div class="term"><b>OUT OF THE MONEY (OTM)</b> → Not profitable yet; cheaper but riskier.</div>
+      <div class="term"><b>AT THE MONEY (ATM)</b> → Strike closest to current price.</div>
+      <div class="term"><b>GREEKS</b> → Delta, Theta, Gamma, Vega (how options react).</div>
+      <div class="term"><b>OPEN INTEREST</b> → How many contracts exist; higher = more liquid.</div>
+      <div class="term"><b>VOLUME</b> → Contracts traded today; higher = active.</div>
+      <div class="term"><b>BID / ASK</b> → Buyers (bid) / Sellers (ask); watch spread.</div>
+      <!-- Fintwit slang -->
+      <div class="term"><b>BAGHOLDER</b> → Stuck in a losing play, hoping.</div>
+      <div class="term"><b>CUT</b> → Close a losing trade.</div>
+      <div class="term"><b>SCALP</b> → Quick in/out trade for small profit.</div>
+      <div class="term"><b>RIP</b> → Stock running hard up.</div>
+      <div class="term"><b>DUMP</b> → Stock tanking fast.</div>
+      <div class="term"><b>FOMO</b> → Fear of missing out (avoid it).</div>
+      <div class="term"><b>SWEEP</b> → Big aggressive options buy (usually institutions).</div>
+      <div class="term"><b>BLOCK</b> → Large order placed less aggressively than sweep.</div>
+      <div class="term"><b>LOTTO</b> → Super risky cheap play expiring soon.</div>
+      <div class="term"><b>SLAP / SMACK</b> → Aggressive buys (slap ask) / sells (hit bid).</div>
+      <div class="term"><b>ATH / ATL</b> → All-time high / Low.</div>
+      <div class="term"><b>BTFD</b> → "Buy the f* dip".</div>
+      <div class="term"><b>CHOP</b> → Sideways, no clean trades.</div>
+      <div class="term"><b>REJECT</b> → Price hit level and reversed hard.</div>
+      <div class="term"><b>BREAKOUT / BREAKDOWN</b> → Price breaks support/resistance strongly.</div>
+      <div class="term"><b>GAPPER</b> → Stock that gaps overnight.</div>
+      <div class="term"><b>FADE</b> → Trade against a move as it loses steam.</div>
+      <div class="term"><b>PUMP / RUG PULL</b> → Hype move / fake breakout.</div>
+      <div class="term"><b>DILUTION</b> → Company issues more shares (bearish).</div>
+      <div class="term"><b>SIZING UP / DOWN</b> → Change position size.</div>
+      <div class="term"><b>AVERAGING DOWN</b> → Adding to losing trade (risky).</div>
+      <div class="term"><b>THIN</b> → Low liquidity; risky fills.</div>
+      <div class="term"><b>WICKED OUT</b> → Stopped out by a wick spike.</div>
+      <div class="term"><b>VOL EXPLOSION</b> → Sudden big move + volume spike.</div>
+      <div class="term"><b>STUFFED</b> → Big seller stops upside instantly.</div>
+      <div class="term"><b>NO FILLS</b> → Couldn't get filled (fast move or illiquid).</div>
+      <div class="term"><b>FILLER CANDLE</b> → Useless candle with no conviction.</div>
+      <div class="term"><b>TRENDING / FLAT / RANGE</b> → Market states (trending vs choppy).</div>
+      <div class="term"><b>ROLLING</b> → Moving position to later expiration.</div>
+    </div>
+  </section>
+
+  <!-- EXTRA RESOURCES -->
+  <section style="margin-top:28px">
+    <h2 class="section-title">Extra resources & things I added for you</h2>
+    <p class="lead">These are additional items I included to strengthen credibility and help users learn faster.</p>
+
+    <div class="grid" style="margin-top:12px">
+      <div class="col-8">
+        <div class="card">
+          <h3 style="margin-top:0;color:var(--accent-2)">Advanced Topics (placeholders)</h3>
+          <ul>
+            <li><b>Greeks Deep Dive:</b> Delta, Theta, Gamma, Vega explained with examples.</li>
+            <li><b>Common Option Strategies:</b> Covered Calls, Credit Spreads, Iron Condors, Vertical Spreads.</li>
+            <li><b>Implied Volatility:</b> How IV crush affects options and when to avoid buying options.</li>
+            <li><b>Rolling Positions:</b> How and when to roll losing or winning positions.</li>
+          </ul>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h3 style="margin-top:0;color:var(--accent-2)">Tax & Record Keeping (Beginner)</h3>
+          <p class="small muted">Keep trade logs and receipts—this helps with taxes and learning. Consult a professional for tax advice.</p>
+        </div>
+
+      </div>
+
+      <div class="col-4">
+        <div class="card">
+          <h3 style="margin-top:0;color:var(--accent-2)">Free Tools I Recommend</h3>
+          <ul>
+            <li>TradingView — charting & indicators</li>
+            <li>Finviz — scanners</li>
+            <li>Yahoo Finance — news</li>
+            <li>Broker platforms — Webull / Robinhood / thinkorswim</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- CTA & Final FOMO -->
+  <section style="margin-top:28px">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>
+          <h2 class="section-title">Ready to Learn Fast?</h2>
+          <p class="lead">DM me on TikTok for 1-on-1 guidance, watchlists, and trial setups. No link needed — message me privately on TikTok.</p>
+        </div>
+        <div style="min-width:240px;text-align:center">
+          <button class="btn primary" onclick="openModal()">DM Me on TikTok</button>
+          <div class="small muted" style="margin-top:8px">Spots limited — real traders only 🚀</div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px" class="fomo">Join the waitlist — DM me "START" on TikTok. First 10 get a free review of 3 trades.</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="margin-top:28px">
+    <div class="container">
+      <p style="font-weight:800;font-size:1.05rem">Options Trading University</p>
+      <p class="small">Trading isn't guaranteed. This page is educational — not financial advice.</p>
+      <p style="margin-top:6px">© <span id="year"></span> — Built with ❤️. DM me on TikTok to learn more (no link needed).</p>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Modal (TikTok DM / Contact) -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="close" onclick="closeModal()">✕</button>
+    <h3 style="margin-top:0">DM me on TikTok</h3>
+    <p class="small muted">Message me privately on TikTok (no link). Tell me "Found you on the trading page" and ask for: Beginner help / Trade review / Waitlist entry.</p>
+    <p style="margin-top:12px"><b>Suggested message (copy):</b></p>
+    <div style="background:#f5f9ff;padding:10px;border-radius:8px;margin-top:8px;font-family:monospace;">
+      Hey — I found your Options Trading University page. I want a trade review and to join your waitlist. — <i>Your name</i>
+    </div>
+    <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn" onclick="closeModal()">Close</button>
+      <button class="btn primary" onclick="closeModal()">I will DM now</button>
+    </div>
+  </div>
+</div>
+
+<!-- ---------- Scripts: notifications, modal, small helpers ---------- -->
+<script>
+  // YEAR
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Modal
+  function openModal(){ document.getElementById('modalBackdrop').style.display = 'flex'; }
+  function closeModal(){ document.getElementById('modalBackdrop').style.display = 'none'; }
+
+  // Fake Notifications / Alerts (for the live feel)
+  const notifyWrap = document.getElementById('notifyWrap');
+  const sampleNotices = [
+    {title:'New Trade Alert', text:'$SPX calls — +320% move (view screenshot)', time:'now'},
+    {title:'Subscriber DM', text:'"Can you review my trade from this morning?"', time:'1m'},
+    {title:'Win Shared', text:'$QQQ scalp — $3.5k (screenshot uploaded)', time:'3m'},
+    {title:'New Follower', text:'Congratulations — 1,200 new followers this week', time:'5m'},
+    {title:'Reminder', text:'Join the waitlist — DM "START" on TikTok', time:'10m'}
+  ];
+  // populate some initially
+  sampleNotices.slice(0,3).forEach(n => addNotify(n.title,n.text));
+  function addNotify(title,text){
+    const d = document.createElement('div'); d.className='notify';
+    d.innerHTML = '<div style="width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white;display:flex;align-items:center;justify-content:center;font-weight:800">P</div>'
+      + '<div style="flex:1"><strong>'+title+'</strong><small>'+text+'</small></div><div style="font-size:0.85rem;color:var(--muted)">'+(new Date()).toLocaleTimeString().replace(/:\\d+ /,' ')+'</div>';
+    notifyWrap.appendChild(d);
+    // dismiss after 9s
+    setTimeout(()=>{ d.style.transition='opacity 0.6s'; d.style.opacity=0; setTimeout(()=>d.remove(),700) },9000);
+  }
+  function openFakeNotification(){
+    const n = sampleNotices[Math.floor(Math.random()*sampleNotices.length)];
+    addNotify(n.title,n.text);
+  }
+
+  // animate stat counter (demo)
+  document.addEventListener('DOMContentLoaded',()=>{
+    const el = document.getElementById('statProfit'); let start=0, end=12300; let duration=1200;
+    let step = Math.max(1, Math.floor(end/50));
+    const t = setInterval(()=>{ start+=step; if(start>=end){ start=end; clearInterval(t);} el.textContent = (start/1000).toFixed(1)+'k+'; }, duration/50);
+  });
+
+  // Optional: scroll helper
+  function scrollToSection(id){
+    const el = document.getElementById(id);
+    if(!el) return window.scrollTo({top:0,behavior:'smooth'});
+    const top = el.getBoundingClientRect().top + window.scrollY - 20;
+    window.scrollTo({top,behavior:'smooth'});
+  }
+</script>
+</body>
+</html>
